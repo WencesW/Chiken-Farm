@@ -4,6 +4,7 @@ import java.util.List;
 import com.chickentest.Chiken.Farm.ChickenNotFoundException;
 import com.chickentest.Chiken.Farm.ChickenRepository;
 import com.chickentest.Chiken.Farm.Models.Chicken;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class ChickenController {
@@ -36,10 +40,14 @@ public class ChickenController {
     // Single item
 
     @GetMapping("/chickens/{id}")
-    Chicken one(@PathVariable Long id) {
+    EntityModel<Chicken> one(@PathVariable Long id) {
 
-        return repository.findById(id)
+        Chicken employee = repository.findById(id) //
                 .orElseThrow(() -> new ChickenNotFoundException(id));
+
+        return EntityModel.of(employee, //
+                linkTo(methodOn(ChickenController.class).one(id)).withSelfRel(),
+                linkTo(methodOn(ChickenController.class).all()).withRel("chickens"));
     }
 
     @PutMapping("/chickens/{id}")

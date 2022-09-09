@@ -1,5 +1,6 @@
 package com.chickentest.Chiken.Farm.Models;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
 public class Farm {

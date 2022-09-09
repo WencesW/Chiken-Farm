@@ -9,6 +9,8 @@ public class Chicken {
     private @Id @GeneratedValue Long id;
     private int span_life;
 
+    protected Chicken() {}
+
     public Chicken(int span_life) {
         this.span_life = span_life;
     }

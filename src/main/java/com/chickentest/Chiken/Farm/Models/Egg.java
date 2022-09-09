@@ -4,10 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
+@Entity
 public class Egg {
     private @Id @GeneratedValue Long id;
     private int span_life;
+
+    public Egg() {}
 
     public Egg(int span_life) {
         this.span_life = span_life;

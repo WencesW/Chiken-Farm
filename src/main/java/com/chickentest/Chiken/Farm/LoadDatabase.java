@@ -1,5 +1,6 @@
 package com.chickentest.Chiken.Farm;
 import com.chickentest.Chiken.Farm.Models.Chicken;
+import com.chickentest.Chiken.Farm.Models.Egg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +17,7 @@ public class LoadDatabase {
         return args -> {
             log.info("Preloading " + repository.save(new Chicken(1)));
             log.info("Preloading " + repository.save(new Chicken(2)));
+            log.info("Preloading " + repository.save(new Chicken(45)));
         };
     }
 }
