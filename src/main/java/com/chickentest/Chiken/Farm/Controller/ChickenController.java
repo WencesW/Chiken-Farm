@@ -1,20 +1,14 @@
 package com.chickentest.Chiken.Farm.Controller;
 import java.util.List;
+import java.util.Optional;
 
-import com.chickentest.Chiken.Farm.ChickenNotFoundException;
-import com.chickentest.Chiken.Farm.ChickenRepository;
+import com.chickentest.Chiken.Farm.DAO.ChickenRepository;
 import com.chickentest.Chiken.Farm.Models.Chicken;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class ChickenController {
@@ -24,48 +18,58 @@ public class ChickenController {
         this.repository = repository;
     }
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
+    // Get All Chickens
     @GetMapping("/chickens")
-    List<Chicken> all() {
+    public Iterable<Chicken> getAllNotes()
+    {
         return repository.findAll();
     }
-    // end::get-aggregate-root[]
+
+    // Get the chicken details by
+    // ID
+
+    /*@GetMapping("/chickens/{id}")
+    public Chicken getById(@PathVariable(value = "id") long id)
+
+    {
+        return repository.findById(id);
+    }*/
 
     @PostMapping("/chickens")
-    Chicken newEmployee(@RequestBody Chicken newChicken) {
-        return repository.save(newChicken);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Chicken addChicken(
+            @RequestBody Chicken chicken)
+    {
+        return repository.save(chicken);
     }
 
-    // Single item
-
-    @GetMapping("/chickens/{id}")
-    EntityModel<Chicken> one(@PathVariable Long id) {
-
-        Chicken employee = repository.findById(id) //
-                .orElseThrow(() -> new ChickenNotFoundException(id));
-
-        return EntityModel.of(employee, //
-                linkTo(methodOn(ChickenController.class).one(id)).withSelfRel(),
-                linkTo(methodOn(ChickenController.class).all()).withRel("chickens"));
+    @DeleteMapping("/delete/{id}")
+    public void deleteChicken(
+            @PathVariable(value = "id") Long id)
+    {
+        repository.deleteById(id);
     }
 
     @PutMapping("/chickens/{id}")
-    Chicken replaceChicken(@RequestBody Chicken newChicken, @PathVariable Long id) {
+    public ResponseEntity<Object> updateChicken(
+            @RequestBody Chicken chicken,
+            @PathVariable Long id)
+    {
 
-        return repository.findById(id)
-                .map(chicken -> {
-                    chicken.setSpan_life(newChicken.getSpan_life());
-                    return repository.save(chicken);
-                })
-                .orElseGet(() -> {
-                    newChicken.setId(id);
-                    return repository.save(newChicken);
-                });
-    }
+        Optional<Chicken> chickenRepo
+                = repository.findById(id);
 
-    @DeleteMapping("/chickens/{id}")
-    void deleteChicken(@PathVariable Long id) {
-        repository.deleteById(id);
+        if (!chickenRepo.isPresent())
+            return ResponseEntity
+                    .notFound()
+                    .build();
+
+        chicken.setId(id);
+
+        repository.save(chicken);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

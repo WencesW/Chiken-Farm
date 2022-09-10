@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    @Bean
+    /*@Bean
     CommandLineRunner initDatabase(ChickenRepository repository) {
 
         return args -> {
@@ -19,5 +19,5 @@ public class LoadDatabase {
             log.info("Preloading " + repository.save(new Chicken(2)));
             log.info("Preloading " + repository.save(new Chicken(45)));
         };
-    }
+    }*/
 }

@@ -1,12 +1,12 @@
 package com.chickentest.Chiken.Farm.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "eggs")
+
 public class Egg {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int span_life;
 
     public Egg() {}

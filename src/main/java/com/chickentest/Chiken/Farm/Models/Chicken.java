@@ -1,18 +1,20 @@
 package com.chickentest.Chiken.Farm.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "chickens")
+
 public class Chicken {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int span_life;
+    private int incuvation_time;
 
     protected Chicken() {}
 
-    public Chicken(int span_life) {
+    public Chicken( int span_life, int incuvation_time) {
         this.span_life = span_life;
+        this.incuvation_time = incuvation_time;
     }
 
     public Long getId() {
@@ -33,9 +35,10 @@ public class Chicken {
 
     @Override
     public String toString() {
-        return "Chicken " +
-                "id= " + id +
-                "span_life= " + span_life +
-                '}';
+        return "Chicken { " +
+                "Id = " + id +
+                " , span life = " + span_life +
+                " , incuvation time = " + incuvation_time +
+                " } ";
     }
 }
