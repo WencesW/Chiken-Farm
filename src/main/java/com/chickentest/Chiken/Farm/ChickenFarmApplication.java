@@ -1,5 +1,6 @@
 package com.chickentest.Chiken.Farm;
 
+import com.chickentest.Chiken.Farm.Controller.ChickenController;
 import com.chickentest.Chiken.Farm.DAO.ChickenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class ChickenFarmApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ChickenRepository repository) {
+	public CommandLineRunner demo(ChickenController repository) {
 		return (args) -> {
 			// save a few customers
 			repository.save(new Chicken(1,0));
@@ -48,7 +49,7 @@ public class ChickenFarmApplication {
 			log.info(chicken.toString());
 			log.info("");
 
-			repository.deleteById(2L);
+			repository.deleteChicken(2L);
 
 			log.info("Chickens found with findAll() After deleting the Chicken with the Id 2 :");
 			log.info("-------------------------------");
@@ -61,6 +62,5 @@ public class ChickenFarmApplication {
 
 		};
 	}
-
 
 }

@@ -1,5 +1,4 @@
 package com.chickentest.Chiken.Farm.Controller;
-import java.util.List;
 import java.util.Optional;
 
 import com.chickentest.Chiken.Farm.DAO.ChickenRepository;
@@ -20,7 +19,7 @@ public class ChickenController {
 
     // Get All Chickens
     @GetMapping("/chickens")
-    public Iterable<Chicken> getAllNotes()
+    public Iterable<Chicken> findAll()
     {
         return repository.findAll();
     }
@@ -28,16 +27,16 @@ public class ChickenController {
     // Get the chicken details by
     // ID
 
-    /*@GetMapping("/chickens/{id}")
-    public Chicken getById(@PathVariable(value = "id") long id)
+    @GetMapping("/chickens/{id}")
+    public Optional<Chicken> findById(@PathVariable(value = "id") long id)
 
     {
         return repository.findById(id);
-    }*/
+    }
 
     @PostMapping("/chickens")
     @ResponseStatus(HttpStatus.CREATED)
-    public Chicken addChicken(
+    public Chicken save(
             @RequestBody Chicken chicken)
     {
         return repository.save(chicken);
