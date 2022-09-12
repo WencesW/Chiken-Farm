@@ -71,4 +71,19 @@ public class ChickenController {
                 .noContent()
                 .build();
     }
+
+    @GetMapping("/pastTimeChickens/{days}")
+    public ResponseEntity<Object> pastTime(@PathVariable(value = "days") int days){
+        for (Chicken chickens : repository.findAll()) {
+            chickens.setSpanLife(chickens.getSpanLife()+days);
+            if (chickens.getSpanLife()<100){
+                chickens.setIncubationTime(chickens.getIncubationTime()+days);
+                updateChicken(chickens,chickens.getId());
+            }
+            else repository.deleteById(chickens.getId());
+        }
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

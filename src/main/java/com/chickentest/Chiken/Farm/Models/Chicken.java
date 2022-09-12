@@ -7,38 +7,46 @@ import javax.persistence.*;
 
 public class Chicken {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-    private int span_life;
-    private int incuvation_time;
+    private int spanLife;
+    private int incubationTime;
 
     protected Chicken() {}
 
-    public Chicken( int span_life, int incuvation_time) {
-        this.span_life = span_life;
-        this.incuvation_time = incuvation_time;
+    public Chicken(int spanLife, int incubationTime) {
+        this.spanLife = spanLife;
+        this.incubationTime = incubationTime;
     }
 
     public Long getId() {
         return id;
     }
 
-    public int getSpan_life() {
-        return span_life;
+    public int getSpanLife() {
+        return spanLife;
+    }
+
+    public int getIncubationTime() {
+        return incubationTime;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setSpan_life(int span_life) {
-        this.span_life = span_life;
+    public void setSpanLife(int spanLife) {
+        this.spanLife = spanLife;
+    }
+
+    public void setIncubationTime(int incubationTime) {
+        this.incubationTime = incubationTime;
     }
 
     @Override
     public String toString() {
         return "Chicken { " +
                 "Id = " + id +
-                " , span life = " + span_life +
-                " , incuvation time = " + incuvation_time +
+                " , span life = " + spanLife +
+                " , incuvation time = " + incubationTime +
                 " } ";
     }
 }

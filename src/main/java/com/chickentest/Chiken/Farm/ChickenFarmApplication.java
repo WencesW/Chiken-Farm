@@ -43,7 +43,7 @@ public class ChickenFarmApplication {
 			log.info("");
 
 			// fetch an individual chicken by ID
-			Optional<Chicken> chicken = repository.findById(1L);
+			Optional<Chicken> chicken = repository.findById(10L);
 			log.info("Chicken found with findById(1L):");
 			log.info("--------------------------------");
 			log.info(chicken.toString());
@@ -58,6 +58,14 @@ public class ChickenFarmApplication {
 			}
 			log.info("");
 
+			repository.pastTime(80);
+
+			log.info("Chickens Life Span and incubation time updated");
+			log.info("-------------------------------");
+			for (Chicken chickens : repository.findAll()) {
+				log.info(chickens.toString());
+			}
+			log.info("");
 
 
 		};

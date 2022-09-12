@@ -7,35 +7,35 @@ import javax.persistence.*;
 
 public class Egg {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-    private int span_life;
+    private int spanLife;
 
     public Egg() {}
 
-    public Egg(int span_life) {
-        this.span_life = span_life;
+    public Egg(int spanLife) {
+        this.spanLife = spanLife;
     }
 
     public Long getId() {
         return id;
     }
 
-    public int getSpan_life() {
-        return span_life;
+    public int getSpanLife() {
+        return spanLife;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setSpan_life(int span_life) {
-        this.span_life = span_life;
+    public void setSpanLife(int spanLife) {
+        this.spanLife = spanLife;
     }
 
     @Override
     public String toString() {
         return "Egg " +
                 "id = " + id +
-                "span_life = " + span_life
+                "spanLife = " + spanLife
                 ;
     }
 }
