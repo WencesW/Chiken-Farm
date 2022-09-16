@@ -1,13 +1,10 @@
 package com.chickentest.Chiken.Farm.Controller;
 import java.util.Optional;
-
 import com.chickentest.Chiken.Farm.DAO.ChickenRepository;
 import com.chickentest.Chiken.Farm.Models.Chicken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 public class ChickenController {
@@ -17,24 +14,30 @@ public class ChickenController {
         this.repository = repository;
     }
 
-    // Get All Chickens
+    /**
+     * Get All Chickens
+     * @return a Iterable of type Chicken
+     */
     @GetMapping("/chickens")
     public Iterable<Chicken> findAll()
     {
         return repository.findAll();
     }
 
-    // Get the chicken details by
-    // ID
-
-    @GetMapping("/chickens/{id}")
+    /**
+     * Get the chicken details by ID
+     */
+    @GetMapping("/chicken/{id}")
     public Optional<Chicken> findById(@PathVariable(value = "id") long id)
 
     {
         return repository.findById(id);
     }
 
-    @PostMapping("/chickens")
+    /**
+     * Saves a Object of type Chicken on the DB
+     */
+    @PostMapping("/saveChicken")
     @ResponseStatus(HttpStatus.CREATED)
     public Chicken save(
             @RequestBody Chicken chicken)
@@ -42,6 +45,9 @@ public class ChickenController {
         return repository.save(chicken);
     }
 
+    /**
+     * Deletes a Chicken from the DB by ID
+     */
     @DeleteMapping("/delete/{id}")
     public void deleteChicken(
             @PathVariable(value = "id") Long id)
@@ -49,10 +55,11 @@ public class ChickenController {
         repository.deleteById(id);
     }
 
+    /**
+     * Updates a Chicken from the DB by its ID
+     */
     @PutMapping("/chickens/{id}")
-    public ResponseEntity<Object> updateChicken(
-            @RequestBody Chicken chicken,
-            @PathVariable Long id)
+    public ResponseEntity<Object> updateChicken( @RequestBody Chicken chicken, @PathVariable Long id)
     {
 
         Optional<Chicken> chickenRepo
@@ -72,6 +79,9 @@ public class ChickenController {
                 .build();
     }
 
+    /**
+     * Recieves the value of days that the user want to pass and updates the Life Span and Incubation Time of the chickens on the DB.
+     */
     @GetMapping("/pastTimeChickens/{days}")
     public ResponseEntity<Object> pastTime(@PathVariable(value = "days") int days){
         for (Chicken chickens : repository.findAll()) {

@@ -1,7 +1,6 @@
 package com.chickentest.Chiken.Farm;
 
 import com.chickentest.Chiken.Farm.Controller.ChickenController;
-import com.chickentest.Chiken.Farm.DAO.ChickenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.chickentest.Chiken.Farm.Models.Chicken;
@@ -9,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.CommandLineRunner;
-
 import java.util.Optional;
 
 
@@ -27,7 +25,7 @@ public class ChickenFarmApplication {
 	@Bean
 	public CommandLineRunner demo(ChickenController repository) {
 		return (args) -> {
-			// save a few customers
+			// save a few chickens
 			repository.save(new Chicken(1,0));
 			repository.save(new Chicken(12,0));
 			repository.save(new Chicken(11,0));
