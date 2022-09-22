@@ -1,20 +1,37 @@
 package com.chickentest.Chiken.Farm.Models;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "chickens")
-
 public class Chicken {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int spanLife;
     private int incubationTime;
 
-    protected Chicken() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "farm_id", nullable = true)
+    private Farm farm;
 
-    public Chicken(int spanLife, int incubationTime) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "market_id", nullable = true)
+    private Market market;
+
+    public Chicken() {
+    }
+
+    public Chicken(int spanLife, int incubationTime, Farm farm) {
         this.spanLife = spanLife;
         this.incubationTime = incubationTime;
+        this.farm = farm;
+    }
+
+    public Chicken(int spanLife, int incubationTime, Market market) {
+        this.spanLife = spanLife;
+        this.incubationTime = incubationTime;
+        this.market = market;
     }
 
     public Long getId() {

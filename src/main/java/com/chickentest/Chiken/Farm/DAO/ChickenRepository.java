@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface ChickenRepository extends CrudRepository<Chicken,Long> {
+public interface ChickenRepository extends JpaRepository<Chicken,Long> {
 
 
 }

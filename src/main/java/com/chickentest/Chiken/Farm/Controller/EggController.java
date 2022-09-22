@@ -1,98 +1,71 @@
 package com.chickentest.Chiken.Farm.Controller;
 
-import com.chickentest.Chiken.Farm.DAO.EggRepository;
 import com.chickentest.Chiken.Farm.Models.Egg;
+import com.chickentest.Chiken.Farm.Service.EggService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+@RestController
 public class EggController {
-    private final EggRepository repository;
+    private final EggService eggService;
 
-    EggController(EggRepository repository){
-        this.repository = repository;
+    EggController(EggService eggService){
+        this.eggService = eggService;
     }
 
     /**
      * Get All eggs
-     * @return a Iterable of type Egg
+     * @return an Iterable of type Egg
      */
-    @GetMapping("/eggs")
+    @GetMapping("/findAllEggs")
     public Iterable<Egg> findAll()
     {
-        return repository.findAll();
+        return eggService.findAll();
     }
 
     /**
      * Get the egg details by ID
      */
-    @GetMapping("/egg/{id}")
+    @GetMapping("/findEggById/{id}")
     public Optional<Egg> findById(@PathVariable(value = "id") long id)
 
     {
-        return repository.findById(id);
+        return eggService.findById(id);
     }
 
     /**
-     * Saves a Object of type Egg on the DB
+     * Saves an Object of type Egg on the DB
      */
     @PostMapping("/saveEgg")
     @ResponseStatus(HttpStatus.CREATED)
-    public Egg save(
-            @RequestBody Egg egg)
-    {
-        return repository.save(egg);
-    }
+    public Egg save(@RequestBody Egg egg) {return eggService.save(egg);}
 
     /**
-     * Deletes a Egg from the DB by ID
+     * Deletes an Egg from the DB by ID
      */
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteEgg/{id}")
     public void deleteEgg(
-            @PathVariable(value = "id") Long id)
-    {
-        repository.deleteById(id);
-    }
+            @PathVariable(value = "id") Long id) {eggService.deleteEgg(id);}
 
     /**
-     * Updates a Egg from the DB by its ID
+     * Updates an Egg from the DB by its ID
      */
-    @PutMapping("/eggs/{id}")
+    @PutMapping("/updateEggById/{id}")
     public ResponseEntity<Object> updateEgg(@RequestBody Egg egg, @PathVariable Long id)
     {
+        Egg updated = null;
+        try {
+            updated = eggService.updateEgg(egg,id);
 
-        Optional<Egg> eggRepo
-                = repository.findById(id);
-
-        if (!eggRepo.isPresent())
-            return ResponseEntity
-                    .notFound()
-                    .build();
-
-        egg.setId(id);
-
-        repository.save(egg);
-
-        return ResponseEntity
-                .noContent()
-                .build();
-    }
-
-    /**
-     * Recieves the value of days that the user want to pass and updates the Life Span and Incubation Time of the eggs on the DB.
-     */
-    @GetMapping("/pastTimeEggs/{days}")
-    public ResponseEntity<Object> pastTime(@PathVariable(value = "days") int days){
-        for (Egg eggs : repository.findAll()) {
-            if (eggs.getSpanLife()<100){
-                eggs.setSpanLife(eggs.getSpanLife()+days);
-            }
-            else repository.deleteById(eggs.getId());
+        }
+        catch (Exception e){
+            ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity
-                .noContent()
-                .build();
+                .ok()
+                .body(updated);
     }
+
 }
