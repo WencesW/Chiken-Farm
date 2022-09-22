@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ChickenController {
-    private final ChickenRepository repository;
     private final ChickenService chickenService;
 
-    ChickenController(ChickenRepository repository, ChickenService chickenService){
-        this.repository = repository;
+    ChickenController(ChickenService chickenService){
         this.chickenService = chickenService;
     }
 

@@ -19,8 +19,8 @@ public class Farm {
 
     private int money;
 
-
-    public Farm(List<Chicken> farmChickens, List<Egg> farmEggs) {}
+    public Farm() {
+    }
 
     public Farm(ArrayList<Chicken> chickens, ArrayList<Egg> eggs, int money) {
         this.chickens = chickens;
@@ -28,5 +28,35 @@ public class Farm {
         this.money = money;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public List<Chicken> getChickens() {
+        return chickens;
+    }
+
+    public List<Egg> getEggs() {
+        return eggs;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setChickens(List<Chicken> chickens) {
+        this.chickens = chickens;
+    }
+
+    public void setEggs(List<Egg> eggs) {
+        this.eggs = eggs;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
 }

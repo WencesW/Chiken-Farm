@@ -45,6 +45,8 @@ public class Egg{
         return farm;
     }
 
+    public Long getFarmId(){return farm.getId();}
+
     public void setId(Long id) {
         this.id = id;
     }

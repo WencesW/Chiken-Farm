@@ -12,13 +12,13 @@ import java.util.Optional;
 @Service
 public class ChickenService {
 
-    private ChickenRepository chickenRepository;
+    private static ChickenRepository chickenRepository;
 
     public ChickenService(ChickenRepository chickenRepository) {
         this.chickenRepository = chickenRepository;
     }
 
-    public List<Chicken> findAll()
+    public static List<Chicken> findAll()
     {
         return chickenRepository.findAll();
     }

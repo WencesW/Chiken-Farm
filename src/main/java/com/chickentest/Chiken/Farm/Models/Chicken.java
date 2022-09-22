@@ -46,6 +46,17 @@ public class Chicken {
         return incubationTime;
     }
 
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public Long getFarmId(){return farm.getId();}
+
+    public Market getMarket() {
+        return market;
+    }
+
+    public Long getMarketId(){return market.getId();}
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,6 +69,16 @@ public class Chicken {
         this.incubationTime = incubationTime;
     }
 
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
+    public void setMarket(Market market) {
+        this.market = market;
+    }
+    public void setFarmId(Long id) { farm.setId(id);}
+
+    public void setMarketId(Long id){market.setId(id);}
     @Override
     public String toString() {
         return "Chicken { " +
@@ -66,4 +87,6 @@ public class Chicken {
                 " , incuvation time = " + incubationTime +
                 " } ";
     }
+
+
 }
