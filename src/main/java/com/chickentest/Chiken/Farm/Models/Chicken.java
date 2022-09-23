@@ -3,9 +3,11 @@ package com.chickentest.Chiken.Farm.Models;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "chickens")
+@Transactional
 public class Chicken {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int spanLife;
@@ -76,17 +78,27 @@ public class Chicken {
     public void setMarket(Market market) {
         this.market = market;
     }
-    public void setFarmId(Long id) { farm.setId(id);}
+    public void setFarmId(Long id) { this.farm.setId(id);}
 
-    public void setMarketId(Long id){market.setId(id);}
+    public void setMarketId(Long id){ this.market.setId(id);}
+
+
     @Override
     public String toString() {
-        return "Chicken { " +
-                "Id = " + id +
-                " , span life = " + spanLife +
-                " , incuvation time = " + incubationTime +
-                " } ";
-    }
-
-
+        if(farm != null) {
+            return "Chicken{" +
+                    "id=" + id +
+                    ", spanLife=" + spanLife +
+                    ", incubationTime=" + incubationTime +
+                    ", farm=" + farm.getId() +
+                    '}';
+        }
+        else
+            return "Chicken{" +
+                "id=" + id +
+                ", spanLife=" + spanLife +
+                ", incubationTime=" + incubationTime +
+                ", market=" + market.getId() +
+                '}';
+}
 }

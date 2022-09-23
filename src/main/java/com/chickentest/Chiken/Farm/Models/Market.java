@@ -1,20 +1,22 @@
 package com.chickentest.Chiken.Farm.Models;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "markets")
+@Transactional
 public class Market {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Chicken> chickens = new ArrayList<Chicken>();
 
-    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "market", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Egg> eggs = new ArrayList<Egg>();
 
     public Market() {

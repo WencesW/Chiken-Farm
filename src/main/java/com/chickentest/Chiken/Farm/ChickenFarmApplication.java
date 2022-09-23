@@ -41,20 +41,23 @@ public class ChickenFarmApplication {
 			List<Egg> marketEggs = new ArrayList<Egg>();
  			Farm farm=farmController.save(new Farm((ArrayList<Chicken>) farmChickens, (ArrayList<Egg>) farmEggs,100));
 			Market market = marketController.save(new Market(marketChickens,marketEggs));
-			 chickenController.save(new Chicken(80,1,farm));
-			 chickenController.save(new Chicken(60,1,farm));
-			 chickenController.save(new Chicken(11,1,farm));
-			 chickenController.save(new Chicken(12,1,farm));
-			 chickenController.save(new Chicken(50,1,farm));
-			 chickenController.save(new Chicken(10,1,farm));
-			 eggController.save(new Egg(1,farm));
+			 chickenController.save(new Chicken(80,16,farm));
+			 chickenController.save(new Chicken(60,16,farm));
+			 eggController.save(new Egg(16,farm));
 
-			 farmController.pastTime(30,farm);
+			 farmController.pastTime(21,farm);
+
+			 farmController.sellChickens(1,farm,market);
 
 			 farmController.pastTime(10,farm);
 
+			 eggController.save(new Egg(1,farm));
 
-			 farmController.sellChickens(5,farm);
+			 farmController.sellEggs(1,farm,market);
+
+			 farmController.buyEggs(1,farm,market);
+
+			 farmController.buyChickens(1,farm,market);
 
 
 		};
