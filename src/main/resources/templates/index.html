@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Farm</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" align="center">
+
+  <h3>Chickens on Farm List</h3>
+  <table style="width:80%" border="1"
+         class = "table table-striped table-responsive-md">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Life Span</th>
+      <th>Incubation Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="chicken:${chickens}">
+      <td th:text="${chicken.id}"></td>
+      <td th:text="${chicken.spanLife}"></td>
+      <td th:text="${chicken.incubationTime}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <h3>Eggs on Farm List</h3>
+  <table style="width:80%" border="1"
+         class = "table table-striped table-responsive-md">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Life Span</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="egg:${eggs}">
+      <td th:text="${egg.id}"></td>
+      <td th:text="${egg.spanLife}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

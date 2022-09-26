@@ -46,4 +46,11 @@ public class ChickenService {
         }
     }
 
+    public List<Chicken>findByFarmId(Long id){
+        return chickenRepository.findByFarmId(id);
+    }
+
+    public List<Chicken>findByMarketId(Long id){
+        return chickenRepository.findByMarketId(id);
+    }
 }

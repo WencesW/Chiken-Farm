@@ -1,5 +1,6 @@
 package com.chickentest.Chiken.Farm.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,10 +14,11 @@ public class Egg{
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int spanLife;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id", nullable = true)
     private Farm farm;
-
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id", nullable = true)
     private Market market;

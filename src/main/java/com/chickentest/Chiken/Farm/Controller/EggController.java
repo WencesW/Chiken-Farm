@@ -1,11 +1,13 @@
 package com.chickentest.Chiken.Farm.Controller;
 
+import com.chickentest.Chiken.Farm.Models.Chicken;
 import com.chickentest.Chiken.Farm.Models.Egg;
 import com.chickentest.Chiken.Farm.Service.EggService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 @RestController
 public class EggController {
@@ -67,5 +69,15 @@ public class EggController {
                 .ok()
                 .body(updated);
     }
+
+    @GetMapping("/findEggByFarmId/{id}")
+    public List<Egg> findByFarmId(@PathVariable Long id){
+        return eggService.findByFarmId(id);
+    };
+
+    @GetMapping("/findEggByMarketId/{id}")
+    public List<Egg>findByMarketId(@PathVariable Long id){
+        return eggService.findByMarketId(id);
+    };
 
 }

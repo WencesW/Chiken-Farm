@@ -1,5 +1,8 @@
 package com.chickentest.Chiken.Farm.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,10 +16,12 @@ public class Chicken {
     private int spanLife;
     private int incubationTime;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id", nullable = true)
     private Farm farm;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id", nullable = true)
     private Market market;
@@ -52,13 +57,10 @@ public class Chicken {
         return farm;
     }
 
-    public Long getFarmId(){return farm.getId();}
-
     public Market getMarket() {
         return market;
     }
 
-    public Long getMarketId(){return market.getId();}
     public void setId(Long id) {
         this.id = id;
     }
@@ -78,12 +80,10 @@ public class Chicken {
     public void setMarket(Market market) {
         this.market = market;
     }
-    public void setFarmId(Long id) { this.farm.setId(id);}
-
-    public void setMarketId(Long id){ this.market.setId(id);}
 
 
-    @Override
+
+/*    @Override
     public String toString() {
         if(farm != null) {
             return "Chicken{" +
@@ -100,5 +100,8 @@ public class Chicken {
                 ", incubationTime=" + incubationTime +
                 ", market=" + market.getId() +
                 '}';
+
 }
+
+ */
 }

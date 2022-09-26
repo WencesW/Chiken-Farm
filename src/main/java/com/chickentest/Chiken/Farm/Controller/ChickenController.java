@@ -6,9 +6,11 @@ import com.chickentest.Chiken.Farm.Models.Chicken;
 import com.chickentest.Chiken.Farm.Service.ChickenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class ChickenController {
     private final ChickenService chickenService;
 
@@ -67,5 +69,19 @@ public class ChickenController {
                 .ok()
                 .body(updated);
     }
+
+    @GetMapping("/findChickenByFarmId/{id}")
+    public String findByFarmId(@PathVariable Long id, Model model){
+        model.addAttribute("chickensOnFarm",chickenService.findByFarmId(id));
+        return "index";
+    };
+
+    @GetMapping("/findChickenByMarketId/{id}")
+    public List<Chicken>findByMarketId(@PathVariable Long id){
+
+        return chickenService.findByMarketId(id);
+    };
+
+
 
 }

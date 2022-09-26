@@ -9,6 +9,7 @@ import com.chickentest.Chiken.Farm.Models.Market;
 import com.sun.source.util.SourcePositions;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -81,7 +82,6 @@ public class FarmService {
 
     public Farm pastTime(int days, Farm farm){
         for (Chicken chickens : chickenService.findAll()) {
-            System.out.println(chickens.toString());
             if (chickens.getFarm()!=null) {
                 chickens.setSpanLife(chickens.getSpanLife() + days);
                 chickenService.updateChicken(chickens, chickens.getId());
@@ -93,7 +93,7 @@ public class FarmService {
                     else {
                         chickens.setIncubationTime(0);
                         chickenService.updateChicken(chickens, chickens.getId());
-                        if (countEggs()<=5){
+                        if (countEggs()<=15){
                         eggService.save(new Egg(0,farm));
                         }
                         else {
@@ -210,6 +210,15 @@ public class FarmService {
             }
         }
         return farm;
+    }
+
+
+    public List<Chicken> findAllTheChickensWithFarmId(Long id){
+        return chickenService.findByFarmId(1L);
+    }
+
+    public List<Egg> findAllTheEggsWithFarmId(Long id){
+        return eggService.findByFarmId(1L);
     }
 
 

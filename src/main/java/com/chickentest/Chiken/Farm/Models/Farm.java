@@ -1,5 +1,7 @@
 package com.chickentest.Chiken.Farm.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -13,9 +15,10 @@ public class Farm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "farm",fetch = FetchType.LAZY)
     private List<Chicken> chickens = new ArrayList<Chicken>();
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "farm",fetch = FetchType.LAZY)
     private List<Egg> eggs = new ArrayList<Egg>();
 

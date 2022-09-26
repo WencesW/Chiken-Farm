@@ -2,6 +2,7 @@ package com.chickentest.Chiken.Farm.Service;
 
 import com.chickentest.Chiken.Farm.ChickenNotFoundException;
 import com.chickentest.Chiken.Farm.DAO.EggRepository;
+import com.chickentest.Chiken.Farm.Models.Chicken;
 import com.chickentest.Chiken.Farm.Models.Egg;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,13 @@ public class EggService {
             Egg updated =eggRepository.save(egg);
             return updated;
         }
+    }
+
+    public List<Egg>findByFarmId(Long id){
+        return eggRepository.findByFarmId(id);
+    }
+
+    public List<Egg>findByMarketId(Long id){
+        return eggRepository.findByMarketId(id);
     }
 }

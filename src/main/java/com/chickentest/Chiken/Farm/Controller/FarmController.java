@@ -6,11 +6,13 @@ import com.chickentest.Chiken.Farm.Models.Market;
 import com.chickentest.Chiken.Farm.Service.FarmService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 public class FarmController {
     private final FarmService farmService;
 
@@ -26,12 +28,10 @@ public class FarmController {
     public Optional<Farm> findById(@PathVariable(value = "id") long id) {return farmService.findById(id);}
 
     @GetMapping("/pastTimeFarm/{days}")
-    public ResponseEntity<Object> pastTime(@PathVariable(value = "days") int days,@RequestBody Farm farm){
+    public String pastTime(@PathVariable(value = "days") int days,@RequestBody Farm farm){
         Farm timePast = null;
             timePast= farmService.pastTime(days,farm);
-        return ResponseEntity
-                .ok()
-                .body(timePast);
+        return "redirect:/";
     }
 
     @GetMapping("/sellChickens/{units}")
@@ -70,4 +70,13 @@ public class FarmController {
                 .body(chickenBuy);
 
     }
+
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
+        model.addAttribute("chickens", farmService.findAllTheChickensWithFarmId(1L));
+        model.addAttribute("eggs", farmService.findAllTheEggsWithFarmId(1L));
+        return "index";
+    }
+
+
 }
