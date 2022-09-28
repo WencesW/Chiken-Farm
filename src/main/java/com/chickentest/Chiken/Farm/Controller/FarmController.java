@@ -1,6 +1,5 @@
 package com.chickentest.Chiken.Farm.Controller;
 
-import com.chickentest.Chiken.Farm.DAO.FarmRepository;
 import com.chickentest.Chiken.Farm.Models.Farm;
 import com.chickentest.Chiken.Farm.Models.Market;
 import com.chickentest.Chiken.Farm.Service.FarmService;
@@ -10,14 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Controller
 public class FarmController {
     private final FarmService farmService;
 
-    public FarmController(FarmService farmService) {
+    private final MarketController marketController;
+
+    public FarmController(FarmService farmService, MarketController marketController) {
         this.farmService = farmService;
+        this.marketController = marketController;
     }
 
     @PostMapping("/saveFarm")
@@ -25,56 +25,48 @@ public class FarmController {
     public Farm save(@RequestBody Farm farm) {return farmService.save(farm);}
 
     @GetMapping("/findFarmById/{id}")
-    public Optional<Farm> findById(@PathVariable(value = "id") long id) {return farmService.findById(id);}
+    public Farm findById(@PathVariable(value = "id") long id) {return farmService.findById(id);}
 
     @GetMapping("/pastTimeFarm/{days}")
-    public String pastTime(@PathVariable(value = "days") int days,@RequestBody Farm farm){
+    public String pastTime(@RequestParam(value = "days") int days){
         Farm timePast = null;
-            timePast= farmService.pastTime(days,farm);
+            timePast= farmService.pastTime(days,farmService.findById(1L));
         return "redirect:/";
     }
 
-    @GetMapping("/sellChickens/{units}")
-    public ResponseEntity<Object> sellChickens(@PathVariable(value = "units") int units, @RequestBody Farm farm, @RequestBody Market market){
+    @GetMapping("/sellChickens/{unitsOfChickensToSell}")
+    public String sellChickens(@PathVariable(value = "unitsOfChickensToSell") int units){
         Farm chickenSells = null;
-        chickenSells= farmService.sellChickens(units,farm,market);
-        return ResponseEntity
-                .ok()
-                .body(chickenSells);
+        chickenSells= farmService.sellChickens(units, farmService.findById(1L), farmService.findMarketById(1L));
+        return "redirect:/";
     }
 
-    @GetMapping("/sellEggs/{units}")
-    public ResponseEntity<Object> sellEggs(@PathVariable(value = "units") int units, @RequestBody Farm farm, @RequestBody Market market){
+    @GetMapping("/sellEggs/{unitsOfEggsToSell}")
+    public String sellEggs(@PathVariable(value = "unitsOfEggsToSell") int units){
         Farm eggSells = null;
-        eggSells= farmService.sellEggs(units,farm,market);
-        return ResponseEntity
-                .ok()
-                .body(eggSells);
+        eggSells= farmService.sellEggs(units, farmService.findById(1L), farmService.findMarketById(1L));
+        return "redirect:/";
     }
 
-    @GetMapping("/BuyEggs/{units}")
-    public ResponseEntity<Object> buyEggs(@PathVariable(value = "units") int units, @RequestBody Farm farm, @RequestBody Market market){
+    @GetMapping("/BuyEggs/{unitsOfEggsToBuy}")
+    public String buyEggs(@RequestParam(value = "unitsOfEggsToBuy") int units){
         Farm eggBuy = null;
-        eggBuy= farmService.buyEggs(units,farm,market);
-        return ResponseEntity
-                .ok()
-                .body(eggBuy);
+        eggBuy= farmService.buyEggs(units, farmService.findById(1L), farmService.findMarketById(1L));
+        return "redirect:/";
     }
 
-    @GetMapping("/BuyChickens/{units}")
-    public ResponseEntity<Object> buyChickens(@PathVariable(value = "units") int units, @RequestBody Farm farm, @RequestBody Market market) {
+    @GetMapping("/BuyChickens/{unitsOfChickensToBuy}")
+    public String buyChickens(@RequestParam(value = "unitsOfChickensToBuy") int units) {
         Farm chickenBuy = null;
-        chickenBuy = farmService.buyChickens(units, farm, market);
-        return ResponseEntity
-                .ok()
-                .body(chickenBuy);
-
+        chickenBuy = farmService.buyChickens(units, farmService.findById(1L), farmService.findMarketById(1L));
+        return "redirect:/";
     }
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
         model.addAttribute("chickens", farmService.findAllTheChickensWithFarmId(1L));
         model.addAttribute("eggs", farmService.findAllTheEggsWithFarmId(1L));
+        model.addAttribute("Farm",farmService.findById(1L));
         return "index";
     }
 

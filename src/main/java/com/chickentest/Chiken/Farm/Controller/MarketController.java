@@ -1,12 +1,10 @@
 package com.chickentest.Chiken.Farm.Controller;
 
+import com.chickentest.Chiken.Farm.Models.Farm;
 import com.chickentest.Chiken.Farm.Models.Market;
 import com.chickentest.Chiken.Farm.Service.MarketService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MarketController {
@@ -20,4 +18,7 @@ public class MarketController {
     @PostMapping("/saveMarket")
     @ResponseStatus(HttpStatus.CREATED)
     public Market save(@RequestBody Market market) {return marketService.save(market);}
+
+    @GetMapping("/findMarketById/{id}")
+    public Market findById(@PathVariable(value = "id") long id) {return marketService.findById(id);}
 }

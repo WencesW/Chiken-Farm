@@ -1,12 +1,11 @@
 package com.chickentest.Chiken.Farm.Service;
 
-import com.chickentest.Chiken.Farm.ChickenNotFoundException;
 import com.chickentest.Chiken.Farm.DAO.FarmRepository;
 import com.chickentest.Chiken.Farm.Models.Chicken;
 import com.chickentest.Chiken.Farm.Models.Egg;
 import com.chickentest.Chiken.Farm.Models.Farm;
 import com.chickentest.Chiken.Farm.Models.Market;
-import com.sun.source.util.SourcePositions;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,19 +16,28 @@ public class FarmService {
     private FarmRepository farmRepository;
     private ChickenService chickenService;
     private EggService eggService;
+    private MarketService marketService;
 
-    public FarmService(FarmRepository farmRepository, ChickenService chickenService, EggService eggService) {
+    public FarmService( FarmRepository farmRepository, ChickenService chickenService, EggService eggService,@Lazy MarketService marketService) {
         this.farmRepository = farmRepository;
         this.chickenService = chickenService;
         this.eggService = eggService;
+        this.marketService = marketService;
     }
 
     public Farm save(Farm farm){return farmRepository.save(farm);}
 
-    public Optional<Farm> findById(long id)
+    public Farm findById(long id)
 
     {
-        return farmRepository.findById(id);
+        Farm farm = farmRepository.findById(id).get();
+        return farm;
+    }
+
+    public Market findMarketById(long id)
+
+    {
+        return marketService.findById(id);
     }
 
     public Farm updateFarm(Farm farm,Long id)
@@ -220,6 +228,5 @@ public class FarmService {
     public List<Egg> findAllTheEggsWithFarmId(Long id){
         return eggService.findByFarmId(1L);
     }
-
 
 }
