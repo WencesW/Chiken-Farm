@@ -27,35 +27,35 @@ public class FarmController {
     @GetMapping("/findFarmById/{id}")
     public Farm findById(@PathVariable(value = "id") long id) {return farmService.findById(id);}
 
-    @GetMapping("/pastTimeFarm/{days}")
+    @GetMapping("/pastTimeFarm")
     public String pastTime(@RequestParam(value = "days") int days){
         Farm timePast = null;
             timePast= farmService.pastTime(days,farmService.findById(1L));
         return "redirect:/";
     }
 
-    @GetMapping("/sellChickens/{unitsOfChickensToSell}")
-    public String sellChickens(@PathVariable(value = "unitsOfChickensToSell") int units){
+    @GetMapping("/sellChickens")
+    public String sellChickens(@RequestParam(value = "unitsOfChickensToSell") int units){
         Farm chickenSells = null;
         chickenSells= farmService.sellChickens(units, farmService.findById(1L), farmService.findMarketById(1L));
         return "redirect:/";
     }
 
-    @GetMapping("/sellEggs/{unitsOfEggsToSell}")
-    public String sellEggs(@PathVariable(value = "unitsOfEggsToSell") int units){
+    @GetMapping("/sellEggs")
+    public String sellEggs(@RequestParam(value = "unitsOfEggsToSell") int units){
         Farm eggSells = null;
         eggSells= farmService.sellEggs(units, farmService.findById(1L), farmService.findMarketById(1L));
         return "redirect:/";
     }
 
-    @GetMapping("/BuyEggs/{unitsOfEggsToBuy}")
+    @GetMapping("/BuyEggs")
     public String buyEggs(@RequestParam(value = "unitsOfEggsToBuy") int units){
         Farm eggBuy = null;
         eggBuy= farmService.buyEggs(units, farmService.findById(1L), farmService.findMarketById(1L));
         return "redirect:/";
     }
 
-    @GetMapping("/BuyChickens/{unitsOfChickensToBuy}")
+    @GetMapping("/BuyChickens")
     public String buyChickens(@RequestParam(value = "unitsOfChickensToBuy") int units) {
         Farm chickenBuy = null;
         chickenBuy = farmService.buyChickens(units, farmService.findById(1L), farmService.findMarketById(1L));
@@ -67,8 +67,11 @@ public class FarmController {
         model.addAttribute("chickens", farmService.findAllTheChickensWithFarmId(1L));
         model.addAttribute("eggs", farmService.findAllTheEggsWithFarmId(1L));
         model.addAttribute("Farm",farmService.findById(1L));
+        model.addAttribute("chickensOnMarket",farmService.countChickensMarket());
+        model.addAttribute("eggsOnMarket",Integer.toString(farmService.countEggsMarket()));
         return "index";
     }
+
 
 
 }

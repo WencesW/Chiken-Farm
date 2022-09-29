@@ -58,7 +58,7 @@ public class FarmService {
         return chickensOnFarm;
     }
 
-    private int countChickensMarket() {
+    public int countChickensMarket() {
         int chickensOnMarket = 0;
         for (Chicken chickens : chickenService.findAll()){
             if (chickens.getMarket()!=null){
@@ -78,7 +78,7 @@ public class FarmService {
         return eggsOnFarm;
     }
 
-    private int countEggsMarket() {
+    public int countEggsMarket() {
         int eggsOnMarket = 0;
         for (Egg eggs : eggService.findAll()){
             if (eggs.getMarket()!=null){
@@ -93,23 +93,23 @@ public class FarmService {
             if (chickens.getFarm()!=null) {
                 chickens.setSpanLife(chickens.getSpanLife() + days);
                 chickenService.updateChicken(chickens, chickens.getId());
+                int incubationTime = (chickens.getIncubationTime()+days);
                 if (chickens.getSpanLife() <= 100) {
-                    if ((chickens.getIncubationTime()+days)<=25){
-                        chickens.setIncubationTime(chickens.getIncubationTime() + days);
-                        chickenService.updateChicken(chickens, chickens.getId());
-                        }
-                    else {
-                        chickens.setIncubationTime(0);
-                        chickenService.updateChicken(chickens, chickens.getId());
-                        if (countEggs()<=15){
-                        eggService.save(new Egg(0,farm));
-                        }
-                        else {
-                            farm.setMoney(farm.getMoney() + 20);
-                            farm = updateFarm(farm, 1L);
+                    if (incubationTime >= 25) {
+                        while (incubationTime >= 25) {
+                            if (countEggs() <= 15) {
+                                eggService.save(new Egg(0, farm));
+                            } else {
+                                farm.setMoney(farm.getMoney() + 20);
+                                farm = updateFarm(farm, 1L);
+                            }
+                            incubationTime = incubationTime - 25;
                         }
                     }
+                    chickens.setIncubationTime(incubationTime);
+                    chickenService.updateChicken(chickens, chickens.getId());
                 }
+
                 else chickenService.deleteChicken(chickens.getId());
             }
         }
@@ -144,6 +144,8 @@ public class FarmService {
                     if (chickens.getFarm() != null) {
                         chickens.setFarm(null);
                         chickens.setMarket(market);
+                        chickens.setIncubationTime(0);
+                        chickens.setSpanLife(0);
                         chickenService.updateChicken(chickens, chickens.getId());
                         farm.setMoney(farm.getMoney() + 50);
                         farm = updateFarm(farm, 1L);
@@ -165,6 +167,7 @@ public class FarmService {
                     if (eggs.getFarm() != null) {
                         eggs.setFarm(null);
                         eggs.setMarket(market);
+                        eggs.setSpanLife(0);
                         eggService.updateEgg(eggs, eggs.getId());
                         farm.setMoney(farm.getMoney() + 20);
                         farm = updateFarm(farm, 1L);
