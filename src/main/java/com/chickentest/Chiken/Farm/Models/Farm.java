@@ -18,18 +18,24 @@ public class Farm {
     @JsonManagedReference
     @OneToMany(mappedBy = "farm",fetch = FetchType.LAZY)
     private List<Chicken> chickens = new ArrayList<Chicken>();
+
+    private int sizeOfChickenList;
     @JsonManagedReference
     @OneToMany(mappedBy = "farm",fetch = FetchType.LAZY)
     private List<Egg> eggs = new ArrayList<Egg>();
+
+    private int sizeOfEggList;
 
     private int money;
 
     public Farm() {
     }
 
-    public Farm(ArrayList<Chicken> chickens, ArrayList<Egg> eggs, int money) {
+    public Farm(List<Chicken> chickens, int sizeOfChickenList, List<Egg> eggs, int sizeOfEggList, int money) {
         this.chickens = chickens;
+        this.sizeOfChickenList = sizeOfChickenList;
         this.eggs = eggs;
+        this.sizeOfEggList = sizeOfEggList;
         this.money = money;
     }
 
@@ -49,6 +55,14 @@ public class Farm {
         return money;
     }
 
+    public int getSizeOfChickenList() {
+        return sizeOfChickenList;
+    }
+
+    public int getSizeOfEggList() {
+        return sizeOfEggList;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -63,5 +77,13 @@ public class Farm {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+
+    public void setSizeOfChickenList(int sizeOfChickenList) {
+        this.sizeOfChickenList = sizeOfChickenList;
+    }
+
+    public void setSizeOfEggList(int sizeOfEggList) {
+        this.sizeOfEggList = sizeOfEggList;
     }
 }

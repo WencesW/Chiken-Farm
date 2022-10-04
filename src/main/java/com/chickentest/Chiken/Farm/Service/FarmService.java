@@ -2,6 +2,7 @@ package com.chickentest.Chiken.Farm.Service;
 
 import com.chickentest.Chiken.Farm.DAO.FarmRepository;
 import com.chickentest.Chiken.Farm.Models.Chicken;
+import com.chickentest.Chiken.Farm.Models.Constants.Constants;
 import com.chickentest.Chiken.Farm.Models.Egg;
 import com.chickentest.Chiken.Farm.Models.Farm;
 import com.chickentest.Chiken.Farm.Models.Market;
@@ -89,21 +90,38 @@ public class FarmService {
     }
 
     public Farm pastTime(int days, Farm farm){
+        for (Egg eggs : eggService.findAll()){
+            if (eggs.getFarm()!=null){
+                eggs.setSpanLife(eggs.getSpanLife()+days);
+                eggService.updateEgg(eggs,eggs.getId());
+                if (eggs.getSpanLife()>=Constants.EGG_SPAN_LIFE){
+                    eggService.deleteEgg(eggs.getId());
+                    if (countChickens()<= farm.getSizeOfChickenList()) {
+                        chickenService.save(new Chicken(0, 0, farm));
+                    }
+                    else {
+                        farm.setMoney(farm.getMoney() + Constants.VALUE_CHICKEN);
+                        farm = updateFarm(farm, 1L);
+                    }
+
+                }
+            }
+        }
         for (Chicken chickens : chickenService.findAll()) {
             if (chickens.getFarm()!=null) {
                 chickens.setSpanLife(chickens.getSpanLife() + days);
                 chickenService.updateChicken(chickens, chickens.getId());
                 int incubationTime = (chickens.getIncubationTime()+days);
-                if (chickens.getSpanLife() <= 100) {
-                    if (incubationTime >= 25) {
-                        while (incubationTime >= 25) {
-                            if (countEggs() <= 15) {
+                if (chickens.getSpanLife() <= Constants.CHICKEN_SPAN_LIFE) {
+                    if (incubationTime >= Constants.CHICKEN_INCUBATION_TIME) {
+                        while (incubationTime >= Constants.CHICKEN_INCUBATION_TIME) {
+                            if (countEggs() <= farm.getSizeOfEggList()) {
                                 eggService.save(new Egg(0, farm));
                             } else {
-                                farm.setMoney(farm.getMoney() + 20);
+                                farm.setMoney(farm.getMoney() + Constants.VALUE_EGG);
                                 farm = updateFarm(farm, 1L);
                             }
-                            incubationTime = incubationTime - 25;
+                            incubationTime = incubationTime - Constants.CHICKEN_INCUBATION_TIME;
                         }
                     }
                     chickens.setIncubationTime(incubationTime);
@@ -113,23 +131,6 @@ public class FarmService {
                 else chickenService.deleteChicken(chickens.getId());
             }
         }
-        for (Egg eggs : eggService.findAll()){
-            if (eggs.getFarm()!=null){
-                eggs.setSpanLife(eggs.getSpanLife()+days);
-                eggService.updateEgg(eggs,eggs.getId());
-                if (eggs.getSpanLife()>=25){
-                    eggService.deleteEgg(eggs.getId());
-                    if (countChickens()<=5) {
-                        chickenService.save(new Chicken(0, 0, farm));
-                    }
-                    else {
-                        farm.setMoney(farm.getMoney() + 50);
-                        farm = updateFarm(farm, 1L);
-                    }
-
-                }
-            }
-        }
         return farm;
     }
 
@@ -137,7 +138,6 @@ public class FarmService {
     public Farm sellChickens(int units, Farm farm, Market market){
         int counter = 1;
         if (countChickens() >= units){
-
             for (Chicken chickens: chickenService.findAll()) {
                 if (counter>units) return farm;
                 {
@@ -147,7 +147,7 @@ public class FarmService {
                         chickens.setIncubationTime(0);
                         chickens.setSpanLife(0);
                         chickenService.updateChicken(chickens, chickens.getId());
-                        farm.setMoney(farm.getMoney() + 50);
+                        farm.setMoney(farm.getMoney() + Constants.VALUE_CHICKEN);
                         farm = updateFarm(farm, 1L);
                         counter++;
                     }
@@ -160,7 +160,6 @@ public class FarmService {
     public Farm sellEggs(int units, Farm farm, Market market){
         int counter = 1;
         if (countEggs() >= units){
-
             for (Egg eggs: eggService.findAll()) {
                 if (counter>units) return farm;
                 {
@@ -169,7 +168,7 @@ public class FarmService {
                         eggs.setMarket(market);
                         eggs.setSpanLife(0);
                         eggService.updateEgg(eggs, eggs.getId());
-                        farm.setMoney(farm.getMoney() + 20);
+                        farm.setMoney(farm.getMoney() + Constants.VALUE_EGG);
                         farm = updateFarm(farm, 1L);
                         counter++;
                     }
@@ -190,7 +189,7 @@ public class FarmService {
                             eggs.setMarket(null);
                             eggs.setFarm(farm);
                             eggService.updateEgg(eggs, eggs.getId());
-                            farm.setMoney(farm.getMoney() - 20);
+                            farm.setMoney(farm.getMoney() - Constants.VALUE_EGG);
                             farm = updateFarm(farm, 1L);
                             counter++;
                         }
@@ -212,7 +211,7 @@ public class FarmService {
                             chickens.setMarket(null);
                             chickens.setFarm(farm);
                             chickenService.updateChicken(chickens, chickens.getId());
-                            farm.setMoney(farm.getMoney() - 50);
+                            farm.setMoney(farm.getMoney() - Constants.VALUE_CHICKEN);
                             farm = updateFarm(farm, 1L);
                             counter++;
                         }
