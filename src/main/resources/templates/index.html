@@ -9,7 +9,6 @@
         crossorigin="anonymous">
 </head>
 <body>
-
 <div class="container my-2" align="center">
   <h2>&#128668; Farm &#128668;</h2>
   <div>
@@ -49,10 +48,11 @@
     </tr>
     </tbody>
   </table>
-  <form  th:action="@{/pastTimeFarm(days)}" method="get" >
+  <form  th:action="@{/pastTimeFarm(days,idFarm)}" method="get" >
     <div>
       <label for="days">Number of Days you want to pass:</label>
       <input id="days" type="number"  th:value="${days}" th:name="days" min="1"  />
+      <input id="farmId" type="hidden" th:value="${Farm.id}" th:name="farmId">
       <button type="submit" >Pass Time &#9203;</button>
     </div>
   </form>
@@ -62,34 +62,38 @@
   <p>Egg price per unit: 25$ (Sell/Buy)</p>
 
   <h3>[Buy]</h3>
-  <form  th:action="@{/BuyChickens(unitsOfChickensToBuy)}" method="get" >
+  <form  th:action="@{/BuyChickens(unitsOfChickensToBuy,idFarm)}" method="get" >
     <div>
       <label for="unitsOfChickensToBuy">Number of Chickens you want to Buy:</label>
       <input id="unitsOfChickensToBuy" type="number"  th:value="${unitsOfChickensToBuy}" th:name="unitsOfChickensToBuy" min="1"/><button type="submit">Buy&#128181;</button>Stock(<span th:text="${chickensOnMarket}"></span>)
+      <input id="farmId1" type="hidden" th:value="${Farm.id}" th:name="farmId">
     </div>
   </form>
 
-  <form  th:action="@{/BuyEggs(unitsOfEggsToBuy)}" method="get" >
+  <form  th:action="@{/BuyEggs(unitsOfEggsToBuy,idFarm)}" method="get" >
     <div>
       <label for="unitsOfEggsToBuy">Number of Eggs you want to Buy:</label>
       <input id="unitsOfEggsToBuy" type="number"  th:value="${unitsOfEggsToBuy}" th:name="unitsOfEggsToBuy" min="1"/><button type="submit">Buy&#128181;</button>Stock(<span th:text="${eggsOnMarket}"></span>)
+      <input id="farmId2" type="hidden" th:value="${Farm.id}" th:name="farmId">
     </div>
   </form>
 
   <h3>[Sell]</h3>
-  <form  th:action="@{/sellChickens(unitsOfChickensToSell)}" method="get" >
+  <form  th:action="@{/sellChickens(unitsOfChickensToSell,idFarm)}" method="get" >
     <div>
       <label for="unitsOfChickensToSell">Number of Chickens you want to Sell:</label>
       <input id="unitsOfChickensToSell" type="number"  th:value="${unitsOfChickensToSell}" th:name="unitsOfChickensToSell" min="1"  />
-      <button type="submit">Sell&#128181;</button>
+      <input id="farmId3" type="hidden" th:value="${Farm.id}" th:name="farmId">
+      <button type="submit">Sell&#128181;</button>Stock(<span th:text="${chickensOnFarm}"></span>)
     </div>
   </form>
 
-  <form  th:action="@{/sellEggs(unitsOfEggsToSell)}" method="get" >
+  <form  th:action="@{/sellEggs(unitsOfEggsToSell,idFarm)}" method="get" >
     <div>
       <label for="unitsOfEggsToSell">Number of Eggs you want to Sell:</label>
       <input id="unitsOfEggsToSell" type="number"  th:value="${unitsOfEggsToSell}" th:name="unitsOfEggsToSell" min="1"  />
-      <button type="submit">Sell&#128181;</button>
+      <input id="farmId4" type="hidden" th:value="${Farm.id}" th:name="farmId">
+      <button type="submit">Sell&#128181;</button>Stock(<span th:text="${eggsOnFarm}"></span>)
     </div>
   </form>
 

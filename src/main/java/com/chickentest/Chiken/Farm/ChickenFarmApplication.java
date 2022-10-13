@@ -46,11 +46,10 @@ public class ChickenFarmApplication {
 			 eggController.save(new Egg(15,farm));
 			 eggController.save(new Egg(15,farm));
 
-			chickenController.save(new Chicken(0,0,market));
-			chickenController.save(new Chicken(0,0,market));
-			eggController.save(new Egg(16,market));
-			eggController.save(new Egg(1,market));
-
+			 chickenController.save(new Chicken(0,0,market));
+			 chickenController.save(new Chicken(0,0,market));
+			 eggController.save(new Egg(16,market));
+			 eggController.save(new Egg(1,market));
 		};
 
 
